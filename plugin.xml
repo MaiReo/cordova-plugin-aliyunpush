@@ -202,6 +202,8 @@
         <source-file src="src/android/MainApplication.java" target-dir="src/com/leo/aliyunpush" />
         <source-file src="src/android/AliyunPush.java" target-dir="src/com/leo/aliyunpush" />
         <source-file src="src/android/IMessageReceiver.java" target-dir="src/com/leo/aliyunpush" />
+		<source-file src="src/android/INotificationChannelHelper.java" target-dir="src/bid/maireo/android/notification" />
+        <source-file src="src/android/NotificationChannelHelper.java" target-dir="src/bid/maireo/android/notification" />
         <lib-file src="src/android/libs/alicloud-android-beacon-1.0.1.jar" />
         <lib-file src="src/android/libs/alicloud-android-beacon-1.0.1.jar" />
         <lib-file src="src/android/libs/alicloud-android-ut-5.1.0.jar" />
