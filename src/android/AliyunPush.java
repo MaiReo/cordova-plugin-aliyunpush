@@ -24,6 +24,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import bid.maireo.android.notification.INotificationChannelHelper;
+import bid.maireo.android.notification.NotificationChannelHelper;
 
 public class AliyunPush extends CordovaPlugin {
     /** LOG TAG */
@@ -32,15 +34,20 @@ public class AliyunPush extends CordovaPlugin {
     /** JS回调接口对象 */
     public static CallbackContext pushCallbackContext = null;
 
-
     final CloudPushService pushService = PushServiceFactory.getCloudPushService();
 
+	/** 通知助手 */
+	protected INotificationChannelHelper _notificationChannelHelper;
+	
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         LOG.d(LOG_TAG, "AliyunPush#initialize");
         super.initialize(cordova, webView);
     }
-
+	
+    public AliyunPush(){
+        _notificationChannelHelper = new NotificationChannelHelper(cordova);
+    }
 
 
     /**
@@ -156,7 +163,10 @@ public class AliyunPush extends CordovaPlugin {
             });
             sendNoResultPluginResult(callbackContext);
             ret = true;
-        }
+        }else if ("createNotificationChannel".equalsIgnoreCase(action)){
+			ret = createNotificationChannel(args, callbackContext);
+			sendNoResultPluginResult(callbackContext);
+		}
     
         return ret;
     }
@@ -207,12 +217,36 @@ public class AliyunPush extends CordovaPlugin {
      *
      * @param data JSON对象
      */
-  public  static void pushData(final JSONObject data) {
+	public  static void pushData(final JSONObject data) {
        if(pushCallbackContext==null) {
            return;
        }
       PluginResult result = new PluginResult(PluginResult.Status.OK, data);
       result.setKeepCallback(true);
       pushCallbackContext.sendPluginResult(result);
+    }
+	/**
+     * 接收推送内容并返回给前端JS
+     *
+     * @param data JSON对象
+     */
+	private boolean createNotificationChannel(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        if (args == null) return  false;
+        if (args.length()< 1) return  false;
+        JSONArray array = args.getJSONArray(0);
+        if (array == null) return  false;
+        if (array.length()< 1) return  false;
+        String channelId  =  array.getString(0);
+        if (channelId == null) return  false;
+        channelId = channelId.trim();
+        if (channelId.isEmpty()) return  false;
+        String channelName = null;
+        if(array.length() > 1) channelName =  array.getString(1);
+        if (channelName == null) return  false;
+        channelName = channelName.trim();
+        if (channelName.isEmpty()) return  false;
+        String channelDescription  =  null;
+        if (array.length()> 2) channelDescription = array.getString(2);
+        return _notificationChannelHelper.createChannel(channelId, channelName, channelDescription);
     }
 }

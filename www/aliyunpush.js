@@ -74,7 +74,18 @@ var AliyunPush = {
     listTags: function(successCallback, errorCallback) {
         this.callNative('listTags', [], successCallback)
     },
-
+	/**
+     * 创建通知频道（安卓
+     * @param  {string} channelId          通知频道Id
+	 * @param  {string} channelName        通知频道名称
+	 * @param  {string} channelDescription 通知频道描述
+     * @param  {Function} successCallback  成功回调
+     * @param  {Function} errorCallback    失败回调
+     * @return {void}               
+     */
+	createNotificationChannel: function(channelId, channelName, channelDescription, successCallback, errorCallback){
+		this.callNative('createNotificationChannel', [channelId, channelName, channelDescription], successCallback)
+	},
     AliyunPush: AliyunPush
 }
 module.exports = AliyunPush;

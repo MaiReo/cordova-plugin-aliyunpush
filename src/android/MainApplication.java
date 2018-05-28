@@ -34,5 +34,6 @@ public class MainApplication extends Application {
                 Log.d(TAG, "init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
             }
         });
+
     }
 }

@@ -27,7 +27,7 @@
 
 ### API
 
-```
+```javascript
     /**
      * 获取设备唯一标识deviceId，deviceId为阿里云移动推送过程中对设备的唯一标识（并不是设备UUID/UDID）
      * @param  {Function} successCallback 成功回调
@@ -97,7 +97,16 @@
       notificationClickedWithNoAction：通知到达，
       notificationReceivedInApp：通知到达打开 app
     }
-
+	/**
+     * 创建通知频道（安卓
+     * @param  {string} channelId          通知频道Id
+	 * @param  {string} channelName        通知频道名称
+	 * @param  {string} channelDescription 通知频道描述
+     * @param  {Function} successCallback  成功回调
+     * @param  {Function} errorCallback    失败回调
+     * @return {void}               
+     */
+	createNotificationChannel: function(channelId, channelName, channelDescription, successCallback, errorCallback)
 ```
 
 
